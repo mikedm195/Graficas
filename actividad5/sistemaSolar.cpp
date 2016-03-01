@@ -37,43 +37,44 @@ void sol(){
 
     glutSolidSphere(69.6, 20, 16);   /* draw sun */ 
 }
-
-Planeta mercurio(0.2440*5, -57.91/10,  1408.0, 88,      149,  59,  41);
-Planeta venus   (0.6052*5, -108.0/10,  5832.0, 224,     180,  144, 94);
-Planeta tierra  (0.6378*5, -150.0/10,  24.0,   365.0,   67,   53,  76);
-Planeta marte   (0.3397*5, -228.0/10,  24.0,   686.0,   153,  80,  48);
-Planeta jupiter (7.1492*5, -778.0/10,  10.0,   4329.0,  207,  142, 74);
-Planeta saturno (6.0268*5,-1429.0/10, 11.0,   10491.0, 247,  190, 87);
-Planeta urano   (2.5559*5,-2870.0/10, 17.0,   29911.0, 174,  254, 253);
-Planeta neptuno (2.4746*5,-4501.3/10, 16.0,   58664.0, 6,    133, 109);
+/*
+Planeta mercurio(0.2440*5, -57.91/5,  1408.0, 88,      149,  59,  41);
+Planeta venus   (0.6052*5, -108.0/5,  5832.0, 224,     180,  144, 94);
+Planeta tierra  (0.6378*5, -150.0/5,  24.0,   365.0,   67,   53,  76);
+Planeta marte   (0.3397*5, -228.0/5,  24.0,   686.0,   153,  80,  48);
+Planeta jupiter (7.1492*5, -778.0/5,  10.0,   4329.0,  207,  142, 74);
+Planeta saturno (6.0268*5,-1429.0/5, 11.0,   10491.0, 247,  190, 87);
+Planeta urano   (2.5559*5,-2870.0/5, 17.0,   29911.0, 174,  254, 253);
+Planeta neptuno (2.4746*5,-4501.3/5, 16.0,   58664.0, 6,    133, 109);
+*/
+Planeta mercurio(0.2440*5, -550.91/5, 1408.0, 88,      149,  59,  41, -1, 0);
+Planeta venus   (0.6052*5, -600.0/5,  5832.0, 224,     180,  144, 94, -1, 0);
+Planeta tierra  (0.6378*5, -630.0/5,  24.0,   365.0,   67,   53,  76, -1, 1);
+Planeta marte   (0.3397*5, -680.0/5,  24.0,   686.0,   153,  80,  48, -1, 1);
+Planeta jupiter (7.1492*5, -1500.0/5, 10.0,   4329.0,  207,  142, 74, -1, 2);
+Planeta saturno (6.0268*5,-2409.0/5,  11.0,   10491.0, 247,  190, 87,  0, 1);
+Planeta urano   (2.5559*5,-3270.0/5,  17.0,   29911.0, 174,  254, 253, 0, 1);
+Planeta neptuno (2.4746*5,-4501.3/5,  16.0,   58664.0, 6,    133, 109, 0, 1);
 
 void display(void)
 {
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    glColor3f (1.0, 1.0, 1.0);
 
-   glPushMatrix();
-      //sol();
-      mercurio.draw();
-      venus.draw();
-      tierra.draw();
-      marte.draw();
-      jupiter.draw();
-      saturno.draw();
-      urano.draw();
-      neptuno.draw();
+    glPushMatrix();
+    
+        sol();
+        mercurio.draw();
+        venus.draw();
+        tierra.draw();
+        marte.draw();
+        jupiter.draw();
+        saturno.draw();
+        urano.draw();
+        neptuno.draw();
 
-      glPushMatrix();
-         glScalef(1.0,1.0,0.1);
-         glutSolidTorus(0.1, 0.5, 10, 15);
-      glPopMatrix();
-      glPushMatrix();
-         glTranslatef (0.3, 0.0, 0.0);
-         glRotatef ((GLfloat) luna, 0.0, 1.0, 0.0);
-         glutSolidSphere(0.03, 10, 8); 
-      glPopMatrix();
-   glPopMatrix();
-   glutSwapBuffers();
+    glPopMatrix();
+    glutSwapBuffers();
 }
 
 void reshape (int w, int h)

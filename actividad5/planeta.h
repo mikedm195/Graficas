@@ -14,10 +14,14 @@ class Planeta{
         double b;
         double dia;
         double anio;
+        double angulo;
+        int lunas;
+        void anillos();
+        void creaLuna();
     public:
         //void creaPlaneta();
         Planeta();
-        Planeta(double tamano,double distancia,double rotacion,double traslacion,double r,double g,double b);
+        Planeta(double tamano,double distancia,double rotacion,double traslacion,double r,double g,double b,double angulo,int lunas);
         void draw();
         
 };
@@ -32,9 +36,11 @@ Planeta::Planeta(){
     b = 0;
     dia = 0;
     anio = 0;
+    angulo = -1;
+    lunas = 0;
 }
 
-Planeta::Planeta(double tamano,double distancia,double rotacion,double traslacion,double r,double g,double b){
+Planeta::Planeta(double tamano,double distancia,double rotacion,double traslacion,double r,double g,double b,double angulo, int lunas){
     this->tamano = tamano;
     this->distancia = distancia;
     this->rotacion = rotacion;
@@ -44,6 +50,8 @@ Planeta::Planeta(double tamano,double distancia,double rotacion,double traslacio
     this->b = b/255;
     dia = 0;
     anio = 0;
+    this->angulo = angulo;
+    this->lunas = lunas;
 }
 
 void Planeta::draw(){
@@ -64,6 +72,27 @@ void Planeta::draw(){
         glTranslatef (0.0, 0.0, distancia);
         glRotatef ((GLfloat) dia, 0.0, 1.0, 0.0);
         glutSolidSphere(tamano, 10, 8);    /* draw smaller planet */
+        creaLuna();
+        if(angulo >=0)
+            anillos();
     glPopMatrix();
    
+}
+
+void Planeta::anillos(){
+    glPushMatrix();
+        glScalef(1.0,1.0,0.1);
+        glutSolidTorus(tamano+2, tamano+10, 10, 15);
+    glPopMatrix();
+}
+
+void Planeta::creaLuna(){
+
+    for(int i = 0;i<lunas;i++){
+        glPushMatrix();
+            glTranslatef (tamano+10, 0.0, 0.0);
+            glRotatef ((GLfloat) dia, 0.0, 1.0, 0.0);
+            glutSolidSphere(10.03, 10, 8); 
+        glPopMatrix();
+    }
 }
