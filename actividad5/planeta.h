@@ -1,3 +1,9 @@
+/*
+ *
+ *Miguel Alberto Del Moral González
+ *A01015019
+ *
+ */
 #pragma once 
 
 #include <GL/glut.h>
@@ -16,6 +22,7 @@ class Planeta{
         double anio;
         double angulo;
         int lunas;
+        int traslacionLuna = 0;
         void anillos();
         void creaLuna();
     public:
@@ -36,6 +43,7 @@ Planeta::Planeta(){
     b = 0;
     dia = 0;
     anio = 0;
+    traslacionLuna = 0;
     angulo = -1;
     lunas = 0;
 }
@@ -50,49 +58,50 @@ Planeta::Planeta(double tamano,double distancia,double rotacion,double traslacio
     this->b = b/255;
     dia = 0;
     anio = 0;
+    traslacionLuna = 0;
     this->angulo = angulo;
     this->lunas = lunas;
 }
 
 void Planeta::draw(){
-    GLfloat mat_ambient[] = { r, g, b, 0.0f };
-    GLfloat mat_diffuse[] = { r, g, b, 0.0f };
-    GLfloat mat_specular[] = { r, g, b, 0.0f };
+    GLfloat mat[] = { r, g, b, 0.0f };
     GLfloat mat_shininess[] = { 100.0f };
 
-    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-
-     dia += 1.0 / rotacion * 100.0;
-     anio += 1.0 / traslacion * 100.0;
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);//pone los colores a los planetas
+     if(rotacion!=0)
+     dia += 1.0 / rotacion * 100.0;//calcula el tiempo de rotacion
+     if(traslacion != 0)
+     anio += 1.0 / traslacion * 100.0;//calcula el tiempo de rotacion
      glPushMatrix();
-        glRotatef ((GLfloat) anio, 0.0, 1.0, 0.0);
-        glTranslatef (0.0, 0.0, distancia);
-        glRotatef ((GLfloat) dia, 0.0, 1.0, 0.0);
-        glutSolidSphere(tamano, 10, 8);    /* draw smaller planet */
+        glRotatef ((GLfloat) anio, 0.0, 1.0, 0.0);//rota con respecto al año
+        glTranslatef (0.0, 0.0, distancia);//mueve el planeta a su posicion
+        glRotatef ((GLfloat) dia, 0.0, 1.0, 0.0);//rota al planeta respecto al dia
+        glutSolidSphere(tamano, 20,20);    /* Dibuja un planeta */
+
         creaLuna();
         if(angulo >=0)
             anillos();
     glPopMatrix();
-   
 }
 
-void Planeta::anillos(){
+void Planeta::anillos(){//Crea los anillos
     glPushMatrix();
+        glRotatef(angulo,1.0,0.0,0.0);
         glScalef(1.0,1.0,0.1);
         glutSolidTorus(tamano+2, tamano+10, 10, 15);
     glPopMatrix();
 }
 
-void Planeta::creaLuna(){
-
+void Planeta::creaLuna(){//crea las lunas    
+    int pos = -tamano-10;
     for(int i = 0;i<lunas;i++){
         glPushMatrix();
-            glTranslatef (tamano+10, 0.0, 0.0);
-            glRotatef ((GLfloat) dia, 0.0, 1.0, 0.0);
-            glutSolidSphere(10.03, 10, 8); 
+            Planeta luna(tamano * .25,pos ,24,10,155,155,155,-1,0);
+            pos*=-1;
+            luna.draw();
         glPopMatrix();
     }
 }
